@@ -1,2 +1,46 @@
 https://python.microbit.org/v/3
 
+
+Display
+
+display.show(123)
+display.scroll('Hello')
+display.scroll('score', delay=100)
+
+display.show(Image.HEART)
+display.show(Image('00300:'
+                   '03630:'
+                   '36963:'
+                   '03630:'
+                   '00300'))
+
+display.set_pixel(0,0,9)
+
+
+Buttons
+
+if button_a.is_pressed():
+if button_a.was_pressed():
+button_a.get_presses()
+
+
+Sensors
+
+display.read_light_level()
+temperature()
+
+
+Sound
+
+set_volume(256)
+music.pitch(440)
+sleep(1000)
+music.stop()
+music.set_tempo(bpm=120)
+music.play(music.BIRTHDAY)
+music.play(['c'])
+speech.say('Hello, world. How are you?')
+audio.play(Sound.YAWN)
+
+microphone.sound_level()
+
