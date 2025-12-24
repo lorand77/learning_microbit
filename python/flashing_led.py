@@ -12,13 +12,13 @@ def update_delay():
         bar_delay()
     if button_b.was_pressed():
         delay /= 2
-        if delay < 125/8:
-            delay = 125/8
+        if delay < 125/16:
+            delay = 125/16
         bar_delay()
 
 def bar_delay():
-    level = int(math.log(delay/(125/8))/math.log(2))
-    for i in range(9):
+    level = int(math.log(delay/(125/16))/math.log(2))
+    for i in range(10):
         display.set_pixel(i%5, i//5, 0)
     for i in range(level+1):
         if i < 5:
@@ -34,7 +34,7 @@ while True:
     display.set_pixel(2,4,9)
     sleep(delay)
     update_delay()
-    
+
     pin0.write_digital(0)
     display.set_pixel(2,3,9)
     display.set_pixel(2,4,0)
