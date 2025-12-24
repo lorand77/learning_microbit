@@ -30,12 +30,14 @@ def bar_delay():
 bar_delay()
 while True:
     pin0.write_digital(1)
+    pin1.write_digital(0)
     display.set_pixel(2,3,0)
     display.set_pixel(2,4,9)
     sleep(delay)
     update_delay()
 
     pin0.write_digital(0)
+    pin1.write_digital(1)
     display.set_pixel(2,3,9)
     display.set_pixel(2,4,0)
     sleep(delay)
