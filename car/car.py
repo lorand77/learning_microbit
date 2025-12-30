@@ -57,12 +57,10 @@ while True:
             speed_r = 0
         set_motors_speed(speed_l, speed_r)
     if "R" in msg:
-        direction += 1
-        if direction > 3:
-            direction = 3
+        direction = 1
         speed = (speed_l + speed_r) // 2
-        speed_l = speed + direction
-        speed_r = speed - direction
+        speed_l = int(speed * (1 + direction*0.2))
+        speed_r = int(speed * (1 - direction*0.2))
         set_motors_speed(speed_l, speed_r)
         if speed_l > 100:
             speed_l = 100
@@ -70,12 +68,10 @@ while True:
             speed_r = 0
         display.set_pixel(4,2,9)
     elif "L" in msg:
-        direction -= 1
-        if direction < -3:
-            direction = -3
+        direction = -1
         speed = (speed_l + speed_r) // 2
-        speed_l = speed + direction
-        speed_r = speed - direction
+        speed_l = int(speed * (1 + direction*0.2))
+        speed_r = int(speed * (1 - direction*0.2))
         set_motors_speed(speed_l, speed_r)
         if speed_r > 100:
             speed_r = 100
@@ -85,8 +81,8 @@ while True:
     elif "S" in msg:
         direction = 0
         speed = (speed_l + speed_r) // 2
-        speed_l = speed + direction
-        speed_r = speed - direction
+        speed_l = speed
+        speed_r = speed
         set_motors_speed(speed_l, speed_r)
 
     sleep(10)
