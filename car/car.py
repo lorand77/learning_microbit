@@ -21,6 +21,7 @@ def set_car_light(light, R, G, B):
 
 speed_l = 0
 speed_r = 0
+direction = 0
 
 while True:
     msg = radio.receive()
@@ -56,9 +57,37 @@ while True:
             speed_r = 0
         set_motors_speed(speed_l, speed_r)
     if "R" in msg:
+        direction += 1
+        if direction > 3:
+            direction = 3
+        speed = (speed_l + speed_r) // 2
+        speed_l = speed + direction
+        speed_r = speed - direction
+        set_motors_speed(speed_l, speed_r)
+        if speed_l > 100:
+            speed_l = 100
+        if speed_r < 0:
+            speed_r = 0
         display.set_pixel(4,2,9)
     elif "L" in msg:
+        direction -= 1
+        if direction < -3:
+            direction = -3
+        speed = (speed_l + speed_r) // 2
+        speed_l = speed + direction
+        speed_r = speed - direction
+        set_motors_speed(speed_l, speed_r)
+        if speed_r > 100:
+            speed_r = 100
+        if speed_l < 0:
+            speed_l = 0
         display.set_pixel(0,2,9)
+    elif "S" in msg:
+        direction = 0
+        speed = (speed_l + speed_r) // 2
+        speed_l = speed + direction
+        speed_r = speed - direction
+        set_motors_speed(speed_l, speed_r)
 
     sleep(10)
 
