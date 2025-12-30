@@ -17,14 +17,18 @@ while True:
         msg = "A"
         display.set_pixel(2,0,9)
     elif btn_b == 0:
-        msg = msg + "B"
+        msg = "B"
         display.set_pixel(2,4,9)
+    else:
+        msg = "N"
     if stck_x < 300:
         msg = msg + "R"
         display.set_pixel(4,2,9)
     elif stck_x > 723:
         msg = msg + "L"
         display.set_pixel(0,2,9)
+    else:
+        msg = msg + "S"
     radio.send(msg)
 
     sleep(100)
