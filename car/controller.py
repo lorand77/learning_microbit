@@ -12,20 +12,22 @@ while True:
     btn_b = pin15.read_digital()
     stck_x = pin1.read_analog()
 
+    msg = ""
     if btn_a == 0:
-        radio.send("Accelerate")
+        msg = "A"
         display.set_pixel(2,0,9)
-    if btn_b == 0:
-        radio.send("Brake")
+    elif btn_b == 0:
+        msg = msg + "B"
         display.set_pixel(2,4,9)
     if stck_x < 300:
-        radio.send("Right")
+        msg = msg + "R"
         display.set_pixel(4,2,9)
     elif stck_x > 723:
-        radio.send("Left")
+        msg = msg + "L"
         display.set_pixel(0,2,9)
+    radio.send(msg)
 
-    sleep(50)
+    sleep(100)
 
     display.set_pixel(2,0,0)
     display.set_pixel(2,4,0)

@@ -6,18 +6,18 @@ radio.config(group = 10)
 radio.on()
 
 while True:
-    msg = radio.receive()
+    msg = str(radio.receive())
 
-    if msg == "Accelerate":
+    if "A" in msg:
         display.set_pixel(2,0,9)
-    if msg == "Brake":
+    elif "B" in msg:
         display.set_pixel(2,4,9)
-    if msg == "Right":
+    if "R" in msg:
         display.set_pixel(4,2,9)
-    elif msg == "Left":
+    elif "L" in msg:
         display.set_pixel(0,2,9)
 
-    sleep(5)
+    sleep(10)
 
     display.set_pixel(2,0,0)
     display.set_pixel(2,4,0)
