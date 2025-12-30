@@ -23,7 +23,11 @@ speed_l = 0
 speed_r = 0
 
 while True:
-    msg = str(radio.receive())
+    msg = radio.receive()
+    if msg is None:
+        msg = ""
+    else:
+        msg = str(msg)
 
     if "A" in msg:
         speed_l += 5
