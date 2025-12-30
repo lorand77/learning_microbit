@@ -61,22 +61,22 @@ while True:
         speed = (speed_l + speed_r) // 2
         speed_l = int(speed * (1 + direction*0.2))
         speed_r = int(speed * (1 - direction*0.2))
-        set_motors_speed(speed_l, speed_r)
         if speed_l > 100:
             speed_l = 100
         if speed_r < 0:
             speed_r = 0
+        set_motors_speed(speed_l, speed_r)
         display.set_pixel(4,2,9)
     elif "L" in msg:
         direction = -1
         speed = (speed_l + speed_r) // 2
         speed_l = int(speed * (1 + direction*0.2))
         speed_r = int(speed * (1 - direction*0.2))
-        set_motors_speed(speed_l, speed_r)
         if speed_r > 100:
             speed_r = 100
         if speed_l < 0:
             speed_l = 0
+        set_motors_speed(speed_l, speed_r)
         display.set_pixel(0,2,9)
     elif "S" in msg:
         direction = 0
