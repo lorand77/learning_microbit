@@ -43,14 +43,14 @@ while True:
             speed_r = 0
         set_motors_speed(speed_l, speed_r)
         display.set_pixel(2,4,9)
-    # else:
-    #     speed_l -= 2
-    #     speed_r -= 2
-    #     if speed_l < 0:
-    #         speed_l = 0
-    #     if speed_r < 0:
-    #         speed_r = 0
-    #     set_motors_speed(speed_l, speed_r)
+    elif "N" in msg:
+        speed_l -= 2
+        speed_r -= 2
+        if speed_l < 0:
+            speed_l = 0
+        if speed_r < 0:
+            speed_r = 0
+        set_motors_speed(speed_l, speed_r)
     if "R" in msg:
         display.set_pixel(4,2,9)
     elif "L" in msg:
