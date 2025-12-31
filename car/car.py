@@ -19,75 +19,56 @@ def set_car_light(light, R, G, B):
     light_bytecode = 0x04 if light == "left" else 0x08
     i2c.write(CUTEBOT_ADDR, bytearray([light_bytecode, R, G, B]))
 
-speed_l = 0
-speed_r = 0
+
+def set_speed_direction(speed, direction):
+    if direction == 0:
+        set_motors_speed(speed, speed)
+    elif direction == 1:
+        left_speed = int(speed * 1.2)
+        right_speed = int(speed * 0.8)
+        if left_speed > 100:
+            left_speed = 100
+        set_motors_speed(left_speed, right_speed)
+    elif direction == -1:
+        left_speed = int(speed * 0.8)
+        right_speed = int(speed * 1.2)
+        if right_speed > 100:
+            right_speed = 100
+        set_motors_speed(left_speed, right_speed)
+
+speed = 0
 direction = 0
 
 while True:
     msg = radio.receive()
-    if msg is None:
-        msg = ""
-    else:
+    if msg:
         msg = str(msg)
 
-    if "A" in msg:
-        speed_l += 5
-        speed_r += 5
-        if speed_l > 100:
-            speed_l = 100
-        if speed_r > 100:
-            speed_r = 100
-        set_motors_speed(speed_l, speed_r)
-        display.set_pixel(2,0,9)
-    elif "B" in msg:
-        speed_l -= 10
-        speed_r -= 10
-        if speed_l < 0:
-            speed_l = 0
-        if speed_r < 0:
-            speed_r = 0
-        set_motors_speed(speed_l, speed_r)
-        display.set_pixel(2,4,9)
-    elif "N" in msg:
-        speed_l -= 2
-        speed_r -= 2
-        if speed_l < 0:
-            speed_l = 0
-        if speed_r < 0:
-            speed_r = 0
-        set_motors_speed(speed_l, speed_r)
-    if "R" in msg:
-        direction = 1
-        speed = (speed_l + speed_r) // 2
-        speed_l = int(speed * (1 + direction*0.2))
-        speed_r = int(speed * (1 - direction*0.2))
-        if speed_l > 100:
-            speed_l = 100
-        if speed_r < 0:
-            speed_r = 0
-        set_motors_speed(speed_l, speed_r)
-        display.set_pixel(4,2,9)
-    elif "L" in msg:
-        direction = -1
-        speed = (speed_l + speed_r) // 2
-        speed_l = int(speed * (1 + direction*0.2))
-        speed_r = int(speed * (1 - direction*0.2))
-        if speed_r > 100:
-            speed_r = 100
-        if speed_l < 0:
-            speed_l = 0
-        set_motors_speed(speed_l, speed_r)
-        display.set_pixel(0,2,9)
-    elif "S" in msg:
-        direction = 0
-        speed = (speed_l + speed_r) // 2
-        speed_l = speed
-        speed_r = speed
-        set_motors_speed(speed_l, speed_r)
+        if "A" in msg:
+            speed += 5
+            display.set_pixel(2,0,9)
+        elif "B" in msg:
+            speed -= 10
+            display.set_pixel(2,4,9)
+        elif "N" in msg:
+            speed -= 2
+        if "R" in msg:
+            direction = 1
+            display.set_pixel(4,2,9)
+        elif "L" in msg:
+            direction = -1
+            display.set_pixel(0,2,9)
+        elif "S" in msg:
+            direction = 0
+        
+        if speed > 100:
+            speed = 100
+        elif speed < 0:
+            speed = 0
+        set_speed_direction(speed, direction)
+        
+        sleep(50)
+        display.clear()        
 
-    sleep(10)
+    sleep(5)
 
-    display.set_pixel(2,0,0)
-    display.set_pixel(2,4,0)
-    display.set_pixel(4,2,0)
-    display.set_pixel(0,2,0)
