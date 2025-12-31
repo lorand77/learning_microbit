@@ -43,6 +43,9 @@ direction = 1
 
 last_reverse_beep = 0
 
+set_car_light("left", 0, 0, 255)
+set_car_light("right", 0, 0, 255)
+
 while True:
     msg = radio.receive()
     if msg:
@@ -64,13 +67,19 @@ while True:
             display.set_pixel(0,2,9)
         elif "S" in msg:
             turn = 0
-        if "D" in msg:
+        if "D" in msg and speed < 10 and speed > -10:
             direction = direction * (-1)
+            if direction == -1:
+                set_car_light("left", 255, 0, 0)
+                set_car_light("right", 255, 0, 0)
+            else:
+                set_car_light("left", 0, 0, 255)
+                set_car_light("right", 0, 0, 255)
         
         if direction == 1 and speed > 100:
             speed = 100
-        if direction == -1 and speed > 30:
-            speed = 30
+        if direction == -1 and speed > 50:
+            speed = 50
         if speed < 0:
             speed = 0
         set_speed_turn_direction(speed, turn, direction)
