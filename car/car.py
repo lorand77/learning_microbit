@@ -1,5 +1,6 @@
 from microbit import *
 import radio
+import music
 
 radio.config(group = 10)
 radio.on()
@@ -40,6 +41,8 @@ speed = 0
 turn = 0
 direction = 1
 
+last_honk = 0
+
 while True:
     msg = radio.receive()
     if msg:
@@ -73,6 +76,12 @@ while True:
         set_speed_turn_direction(speed, turn, direction)
 
         sleep(50)
-        display.clear()        
-
+        display.clear()
+    
+    if direction == -1 and speed > 0:
+        now = running_time()
+        if now - last_honk >= 1000:
+            music.pitch(800, 300, wait=False)
+            last_honk = now
+    
     sleep(5)
