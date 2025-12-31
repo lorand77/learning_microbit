@@ -29,11 +29,10 @@ while True:
         display.set_pixel(0,2,9)
     else:
         msg = msg + "S"
+    if button_b.was_pressed():
+        msg = msg + "D"
     radio.send(msg)
 
     sleep(100)
 
-    display.set_pixel(2,0,0)
-    display.set_pixel(2,4,0)
-    display.set_pixel(4,2,0)
-    display.set_pixel(0,2,0)
+    display.clear()

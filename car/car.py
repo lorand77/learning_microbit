@@ -20,24 +20,25 @@ def set_car_light(light, R, G, B):
     i2c.write(CUTEBOT_ADDR, bytearray([light_bytecode, R, G, B]))
 
 
-def set_speed_direction(speed, direction):
-    if direction == 0:
-        set_motors_speed(speed, speed)
-    elif direction == 1:
-        left_speed = int(speed * 1.2)
-        right_speed = int(speed * 0.8)
-        if left_speed > 100:
-            left_speed = 100
-        set_motors_speed(left_speed, right_speed)
-    elif direction == -1:
-        left_speed = int(speed * 0.8)
-        right_speed = int(speed * 1.2)
-        if right_speed > 100:
-            right_speed = 100
-        set_motors_speed(left_speed, right_speed)
+def set_speed_turn_direction(speed, turn, direction):
+    if turn == 0:
+        speed_l = speed
+        speed_r = speed
+    elif turn == 1:
+        speed_l = int(speed * 1.2)
+        speed_r = int(speed * 0.8)
+        if speed_l > 100:
+            speed_l = 100
+    elif turn == -1:
+        speed_l = int(speed * 0.8)
+        speed_r = int(speed * 1.2)
+        if speed_r > 100:
+            speed_r = 100
+    set_motors_speed(speed_l * direction, speed_r * direction)
 
 speed = 0
-direction = 0
+turn = 0
+direction = 1
 
 while True:
     msg = radio.receive()
@@ -53,22 +54,25 @@ while True:
         elif "N" in msg:
             speed -= 2
         if "R" in msg:
-            direction = 1
+            turn = 1
             display.set_pixel(4,2,9)
         elif "L" in msg:
-            direction = -1
+            turn = -1
             display.set_pixel(0,2,9)
         elif "S" in msg:
-            direction = 0
+            turn = 0
+        if "D" in msg:
+            direction = direction * (-1)
         
-        if speed > 100:
+        if direction == 1 and speed > 100:
             speed = 100
-        elif speed < 0:
+        if direction == -1 and speed > 30:
+            speed = 30
+        if speed < 0:
             speed = 0
-        set_speed_direction(speed, direction)
-        
+        set_speed_turn_direction(speed, turn, direction)
+
         sleep(50)
         display.clear()        
 
     sleep(5)
-
