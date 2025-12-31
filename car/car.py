@@ -41,7 +41,7 @@ speed = 0
 turn = 0
 direction = 1
 
-last_honk = 0
+last_reverse_beep = 0
 
 while True:
     msg = radio.receive()
@@ -80,8 +80,8 @@ while True:
     
     if direction == -1 and speed > 0:
         now = running_time()
-        if now - last_honk >= 1000:
+        if now - last_reverse_beep >= 1000:
             music.pitch(800, 300, wait=False)
-            last_honk = now
+            last_reverse_beep = now
     
     sleep(5)
